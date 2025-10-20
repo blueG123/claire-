@@ -1,0 +1,162 @@
+
+        :root{
+            /* palette claire, plus de doré que de bleu — raffiné et lumineux */
+            --gold: #c8b06e;         /* doré principal (accent dominant) */
+            --gold-deep: #9b7b43;    /* doré profond pour accents */
+            --cream:#fff8f2;
+            --perle:#f6f2ee;
+            --blue-steel: #2f4a5a;   /* bleu acier, contraste avec doré */
+            --sky-soft: #9fd3f1a6;     /* touche lumineuse secondaire */
+            --muted: #6b7576;        /* texte secondaire */
+            --shadow: rgba(47, 74, 90, 0.532);
+        }
+
+        *{box-sizing:border-box}
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            color: var(--gold-deep);
+            background:
+                radial-gradient(ellipse at 10% 10%, rgba(191, 167, 106, 0.881) 0%, transparent 18%),
+                linear-gradient(180deg, var(--cream) 0%, #fbf9f7f6 45%, #f9f8f6be 100%);
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+        }
+
+        header.site-header{
+            width:100%;
+            max-width:1100px;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            padding:18px 22px;
+            gap:16px;
+        }
+        .brand {
+            display:flex;
+            align-items:center;
+            gap:14px;
+            text-decoration:none;
+            color:var(--blue-steel);
+        }
+        .logo {
+            width:64px;
+            height:64px;
+            border-radius:50%;
+            /* priorité au doré avec un léger halo bleu pour élégance */
+            background: radial-gradient(circle at 28% 28%, var(--gold) 0%, var(--gold-deep) 28%, var(--sky-soft) 78%);
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            font-weight:800;
+            color:#0e1b22;
+            border:1px solid rgba(155,123,67,0.10);
+            box-shadow: 0 6px 18px var(--shadow);
+            flex:0 0 64px;
+        }
+        /* Titre légèrement doré pour renforcer l'identité */
+        .site-title { font-weight:700; color:var(--gold-deep); text-shadow: 0 1px 0 rgba(255,255,255,0.6); }
+
+        nav.main-nav { display:flex; gap:12px; align-items:center; }
+        /* liens de navigation : couleur pleine, bonne lisibilité */
+        nav.main-nav a {
+            color: var(--blue-steel);
+            text-decoration: none;
+            padding: 8px 12px;
+            border-radius: 10px;
+            font-weight: 700;
+            transition: background .18s, color .18s;
+            background: transparent;
+            -webkit-tap-highlight-color: rgba(0,0,0,0);
+        }
+        /* accent doré au hover pour cohérence visuelle */
+        nav.main-nav a:hover,
+        nav.main-nav a:focus {
+            background: linear-gradient(90deg, rgba(200,176,110,0.12), rgba(159,211,241,0.04));
+            color: var(--gold-deep);
+            outline: none;
+        }
+
+        .menu-toggle { display:none; background:transparent; border:none; color:var(--blue-steel); font-size:1.2rem; padding:8px; cursor:pointer; }
+
+        .container {
+            text-align:center;
+            padding:56px 22px 36px 22px;
+            background: linear-gradient(180deg, var(--perle) 100%);
+            border-radius:20px;
+            box-shadow: 0 14px 40px var(--shadow);
+            max-width:560px;
+            margin:40px 20px;
+        }
+        .logo-img {
+            width:120px; height:120px; border-radius:50%; object-fit:cover; display:block; margin:0 auto 18px;
+            border:3px solid rgba(191,167,106,0.10); box-shadow: 0 8px 24px rgba(143,109,63,0.05);
+        }
+        .devise {
+            font-size:1.18rem;
+            font-weight:600;
+            color:var(--gold-deep); /* message d'accroche doré pour attirer le regard */
+            margin-bottom:22px;
+            letter-spacing:0.3px;
+        }
+
+        .cta-btn {
+            /* CTA priorise le doré, contraste propre sur fond clair */
+            background: linear-gradient(90deg, var(--gold-deep) 0%, var(--gold) 100%);
+            color:#fff;
+            border:none;
+            border-radius:28px;
+            padding:12px 34px;
+            font-size:1.02rem;
+            font-weight:700;
+            cursor:pointer;
+            box-shadow: 0 10px 30px rgba(155,123,67,0.12);
+            text-decoration:none;
+            display:inline-block;
+        }
+        .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 12px 36px rgba(47, 74, 90, 0.354); }
+
+        .more { color:var(--blue-steel); text-decoration:none; font-size:0.98rem; display:block; margin-top:16px; }
+
+        footer { margin-top:18px; color:var(--muted); font-size:0.9rem; }
+
+        /* responsive */
+        @media (max-width:840px){
+            header.site-header{ padding:12px 14px; }
+            .site-title{ display:none; }
+
+            /* menu mobile : fond opaque, contraste élevé et z-index pour éviter transparence */
+            nav.main-nav{
+                display:none;
+                position:absolute;
+                top:72px;
+                left:12px;
+                right:12px;
+                background: linear-gradient(180deg, #ffffff, var(--perle));
+                color:var(--blue-steel);
+                border-radius:12px;
+                padding:12px;
+                box-shadow:0 16px 48px rgba(47,74,90,0.12);
+                flex-direction:column;
+                z-index:9999; /* au dessus du contenu */
+            }
+            /* classe "open" affiche le menu et garantit le fond */
+            nav.main-nav.open{
+                display:flex;
+                background: #ffffff;
+            }
+
+            nav.main-nav a{ color: var(--blue-steel); padding:10px; }
+            .menu-toggle{ display:inline-flex; }
+            .container{ margin-top:24px; padding:36px 16px; max-width:96%; }
+            .logo{ width:56px; height:56px; }
+        }
+        @media (max-width:420px){
+            .logo{ width:50px; height:50px; }
+            .logo-img{ width:100px; height:100px; }
+            .container{ padding:22px 12px; }
+            .devise{ font-size:1rem; }
+        }
+    

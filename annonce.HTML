@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Annonces — Clair de Lune</title>
+  <style>
+    :root{
+      --gold:#c8b06e;
+      --gold-deep:#9b7b43;
+      --cream:#fff8f2;
+      --perle:#f6f2ee;
+      --blue:#2f4a5a;
+      --muted:#6b7576;
+      --shadow: rgba(47,74,90,0.06);
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      background: linear-gradient(180deg,var(--cream), #fff);
+      color:var(--blue);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+      padding:20px;
+    }
+    .wrap{max-width:1100px;margin:0 auto}
+    header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0}
+    .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:var(--blue)}
+    .logo{width:56px;height:56px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+      background:radial-gradient(circle at 28% 28%,var(--gold) 0%,var(--gold-deep) 30%, #e6f6ff 80%);
+      box-shadow:0 6px 18px var(--shadow);font-weight:800;color:#071216}
+    nav{display:flex;gap:10px;align-items:center}
+    nav a{color:var(--blue);text-decoration:none;padding:8px 12px;border-radius:8px;font-weight:600}
+    nav a.cta{background:linear-gradient(90deg,var(--gold-deep),var(--gold));color:#fff}
+    .hero{background:var(--perle);border-radius:12px;padding:20px;margin-top:12px;box-shadow:0 10px 30px var(--shadow)}
+    .hero h1{margin:0;color:var(--gold-deep)}
+    .hero p{margin:8px 0 0;color:var(--muted)}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:18px}
+    .card{background:#fff;border-radius:10px;padding:14px;box-shadow:0 8px 24px rgba(143,109,63,0.04);border:1px solid rgba(0,0,0,0.03)}
+    .card h3{margin:0 0 6px 0;color:var(--gold-deep);font-size:1.02rem}
+    .card p{margin:0;color:var(--muted);font-size:0.95rem}
+    .badge{display:inline-block;padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,var(--gold-deep),var(--gold));color:#fff;font-weight:700;font-size:0.9rem}
+    .promo{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .promo .text{flex:1}
+    .small{font-size:0.9rem;color:var(--muted)}
+    footer{margin:22px 0;text-align:center;color:var(--muted);font-size:0.9rem}
+
+    /* image announcement */
+    .thumb{
+      width:100%;
+      height:160px;
+      object-fit:cover;
+      border-radius:8px;
+      display:block;
+      margin:10px 0;
+      cursor:pointer;
+      border:1px solid rgba(0,0,0,0.04);
+      box-shadow:0 6px 18px rgba(143,109,63,0.04);
+    }
+
+    /* lightbox / modal */
+    .lightbox{
+      position:fixed;
+      inset:0;
+      display:none;
+      align-items:center;
+      justify-content:center;
+      background:rgba(10,12,14,0.6);
+      z-index:9999;
+      padding:24px;
+    }
+    .lightbox.open{display:flex}
+    .lightbox .inner{
+      max-width:1100px;
+      width:100%;
+      max-height:90vh;
+      border-radius:10px;
+      overflow:auto;
+      background:linear-gradient(180deg,#fff, var(--perle));
+      padding:12px;
+      box-shadow:0 18px 60px rgba(0,0,0,0.35);
+    }
+    .lightbox img{width:100%;height:auto;border-radius:8px;display:block}
+    .lightbox .meta{margin-top:10px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .btn-close{background:transparent;border:none;color:var(--blue);font-weight:700;padding:8px 12px;border-radius:8px;cursor:pointer}
+
+    @media (max-width:900px){ .grid{grid-template-columns:repeat(2,1fr)} }
+    @media (max-width:600px){
+      nav{display:none}
+      .grid{grid-template-columns:1fr}
+      header{justify-content:space-between}
+      .hero{padding:16px}
+      .thumb{height:140px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header role="banner">
+      <a class="brand" href="index.HTML" aria-label="Accueil Clair de Lune">
+        <div class="logo" aria-hidden="true">CDL</div>
+        <div class="title">Clair de Lune</div>
+      </a>
+
+      <nav role="navigation" aria-label="Navigation principale">
+        <a href="index.HTML">Accueil</a>
+        <a href="a propos.HTML">À propos</a>
+        <a href="reserve.HTML" class="cta">Réserver</a>
+      </nav>
+    </header>
+
+    <section class="hero" aria-labelledby="annonces-title">
+      <h1 id="annonces-title">Annonces & Promotions</h1>
+      <p>Retrouvez ici les informations importantes, offres temporaires et messages du salon. Nous privilégions la clarté et la bienveillance.</p>
+    </section>
+
+    <!-- grille d'annonces (par défaut visible) -->
+    <section class="grid" aria-live="polite">
+      <!-- Annonce photo : marquez data-published="true" pour qu'elle soit active -->
+      <article class="card" aria-labelledby="photo1" data-published="true">
+        <h3 id="photo1">Séance photo — nouveau style de saison - opportunités </h3>
+        <img src="annonce.jpg" alt="voici notre annonce du jour" class="thumb" data-full="annonce.jpg" />
+        <p class="small">Découvrez notre nouvel annonce du jour. Cliquez sur l'image pour l'agrandir.</p>
+      </article>
+
+      <article class="card promo" aria-labelledby="promo1" data-published="true">
+        <div class="text">
+          <h3 id="promo1">Offre rentrée — -20% sur les préstations</h3>
+          <p class="small">Du 1er au 30 novembre, profitez de -20% sur toutes les préstations. Offre soumise à réservation préalable.</p>
+        </div>
+        <div><span class="badge">Promo</span></div>
+      </article>
+
+      <article class="card" aria-labelledby="info1" data-published="true">
+        <h3 id="info1">Horaires ordinaires</h3>
+        <p class="small">Le salon est ouvert tous les jours de 8h à 20h, dimanche 13h–20h.</p>
+      </article>
+
+      <!-- autres cartes (ex : non publiées -> ajouter data-published="false" ou retirer l'attribut) -->
+      <article class="card" aria-labelledby="info2" data-published="false">
+        <h3 id="info2">Nouveau soin capillaires hydratant</h3>
+        <p class="small">Soin profond à base d'ingrédients naturels — demandez conseil à l'accueil.</p>
+      </article>
+    </section>
+
+    <footer>
+      <small>Clair de Lune — douceur, soin et élégance. Consultez régulièrement pour ne rien manquer.</small>
+    </footer>
+  </div>
+
+  <!-- lightbox modal -->
+  <div id="lightbox" class="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+    <div class="inner" role="document">
+      <button class="btn-close" id="lbClose" aria-label="Fermer">Fermer ✕</button>
+      <img id="lbImg" src="" alt="">
+      <div class="meta">
+        <div id="lbCaption" style="color:var(--muted)"></div>
+        <a id="lbDownload" href="#" download class="btn-close" style="background:linear-gradient(90deg,var(--gold-deep),var(--gold));color:#fff">Télécharger</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // comportement lightbox pour annonces photo
+    document.addEventListener('DOMContentLoaded', () => {
+      const lightbox = document.getElementById('lightbox');
+      const lbImg = document.getElementById('lbImg');
+      const lbCaption = document.getElementById('lbCaption');
+      const lbDownload = document.getElementById('lbDownload');
+      const lbClose = document.getElementById('lbClose');
+
+      // ouvrir lightbox quand on clique sur une miniature .thumb
+      document.querySelectorAll('.thumb').forEach(img => {
+        img.addEventListener('click', () => {
+          const full = img.dataset.full || img.src;
+          const alt = img.alt || '';
+          lbImg.src = full;
+          lbImg.alt = alt;
+          lbCaption.textContent = alt;
+          lbDownload.href = full;
+          lightbox.classList.add('open');
+          lightbox.setAttribute('aria-hidden','false');
+          // focus for accessibility
+          lbClose.focus();
+        });
+      });
+
+      function closeLb(){
+        lightbox.classList.remove('open');
+        lightbox.setAttribute('aria-hidden','true');
+        lbImg.src = '';
+      }
+
+      lbClose.addEventListener('click', closeLb);
+      lightbox.addEventListener('click', (e) => {
+        if (e.target === lightbox) closeLb();
+      });
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && lightbox.classList.contains('open')) closeLb();
+      });
+    });
+  </script>
+</body>
+</html>

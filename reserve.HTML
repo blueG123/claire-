@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Réservation — Clair de Lune</title>
+  <style>
+    :root{
+      --bleu-ciel: #8f6d3f;    /* bleu ciel doux */
+      --bleu-ciel-deep: #8f6d3f;
+      --dore:#bfa76a;          /* doré principal */
+      --gold-deep:#9b7b43;     /* doré foncé pour accents */
+      --fond:#8f6d3f;          /* fond très doux */
+      --perle:#8f6d3f;         /* panels */
+      --texte:#3a312194;         /* texte sombre */
+      --muted:#7a756fbe;         /* texte secondaire */
+      --card-shadow: rgba(150, 147, 61, 0.893);
+    }
+
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: "Segoe UI", Arial, sans-serif;
+      /* fond clair avec douceur bleu ciel + halo doré subtil */
+      background:
+        radial-gradient(circle at 14% 14%, rgba(191, 167, 106, 0.998) 0%, rgba(191, 174, 106, 0.642) 8%, transparent 28%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.648) 0%, var(--fond) 35%, --gold-deep 100%);
+      color:var(--texte);
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:100vh;
+      padding:24px;
+    }
+
+    .card{
+      width:100%;
+      max-width:920px;
+      background:linear-gradient(180deg, #ffffffa9,);
+      border-radius:14px;
+      box-shadow:0 12px 40px var(--card-shadow);
+      padding:28px;
+      overflow:hidden;
+    }
+    .grid{
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:20px;
+    }
+    h1{margin:0 0 8px 0; color:var(--bleu-ciel-deep)}
+    p.lead{margin:0 0 18px 0; color:var(--muted)}
+    /* Services */
+    .services{background:linear-gradient(180deg, rgba(127,191,232,0.04), transparent); padding:14px; border-radius:10px; border:1px solid rgba(127,191,232,0.06)}
+    .service{display:flex; justify-content:space-between; padding:10px 8px; border-radius:8px; align-items:center}
+    .service + .service{margin-top:8px}
+    .service input{margin-right:12px}
+    .price{font-weight:700; color:var(--dore)}
+    /* Right column: réservation */
+    .sidebar{background:#fff; border-radius:10px; padding:16px; box-shadow:0 6px 20px rgba(61,115,150,0.04)}
+    label{display:block; font-size:0.95rem; margin-bottom:6px; color:var(--texte)}
+    input[type="text"], input[type="tel"], input[type="email"], select, input[type="date"], input[type="time"], textarea{
+      width:100%; padding:10px 12px; border:1px solid #eef6fb; border-radius:8px; font-size:0.95rem; margin-bottom:12px;
+      background: #fff;
+    }
+    textarea{min-height:84px; resize:vertical}
+    .coiffeurs{display:flex; gap:10px; flex-wrap:wrap}
+    .coiffeur{
+      flex:1 1 140px; background:linear-gradient(180deg, rgba(127,191,232,0.03), var(--perle)); border-radius:10px; padding:10px; text-align:center; cursor:pointer;
+      border:2px solid transparent; transition:box-shadow .18s, border-color .18s, transform .12s;
+    }
+    .coiffeur:hover{ transform:translateY(-4px); box-shadow:0 8px 20px rgba(61,115,150,0.04) }
+    .coiffeur img{width:64px;height:64px;border-radius:50%;object-fit:cover;display:block;margin:0 auto 8px; border:2px solid rgba(191,167,106,0.08); background:#fff}
+    .coiffeur input{display:none}
+    .coiffeur.selected{border-color:var(--dore); box-shadow:0 8px 22px rgba(191,167,106,0.10)}
+    .submit{
+      background:linear-gradient(90deg,var(--bleu-ciel-deep) 0%, var(--dore) 100%);
+      color:#fff; border:none; padding:12px 16px; border-radius:10px; font-size:1rem; cursor:pointer; width:100%;
+      box-shadow:0 8px 24px rgba(61,115,150,0.12)
+    }
+    .submit:hover{ transform:translateY(-3px) }
+    .summary{margin-top:14px; padding:10px; font-size:0.95rem; color:var(--texte); background:#fbfbfb; border-radius:8px; border:1px solid rgba(0,0,0,0.03)}
+    footer{margin-top:18px; text-align:center; color:var(--muted); font-size:0.9rem}
+
+    /* top links bar */
+    .top-bar{
+      max-width:920px;
+      margin:16px auto 0;
+      padding:0 24px;
+      display:flex;
+      gap:12px;
+      justify-content:flex-start;
+      align-items:center;
+    }
+    .top-bar a{
+      text-decoration:none;
+      padding:8px 12px;
+      border-radius:8px;
+      font-weight:600;
+    }
+    .top-bar .back{
+      color:#8f6d3f;
+      background: linear-gradient(90deg, rgba(127,191,232,0.12), rgba(127,191,232,0.08));
+      box-shadow:0 6px 18px rgba(61,115,150,0.04);
+    }
+    .top-bar .about{
+      color:var(--bleu-ciel-deep);
+      background:#fff;
+      border:1px solid rgba(0,0,0,0.04);
+    }
+
+    @media (max-width:900px){
+      .grid{grid-template-columns: 1fr}
+      .sidebar{order:2}
+    }
+    @media (max-width:520px){
+      .coiffeur{ flex:1 1 100% }
+      .top-bar{ padding:0 12px; }
+      .card{ padding:20px 14px }
+    }
+  </style>
+</head>
+<body>
+  <!-- Liens de retour vers l'accueil et la page "À propos" -->
+  <div class="top-bar">
+    <a class="back" href="index.HTML">← Accueil</a>
+    <a class="about" href="a propos.HTML">À propos</a>
+  </div>
+
+  <main class="card" aria-labelledby="h-rez">
+    <div class="grid">
+      <section>
+        <h1 id="h-rez">Réserver une prestation — Clair de Lune</h1>
+        <p class="lead">Choisissez une prestation, sélectionnez un coiffeur si vous le désirez, puis précisez la date et l'heure. Le système est responsive et simple d'utilisation.</p>
+
+        <div class="services" role="list" aria-label="Liste des prestations">
+          <!-- Chaque .service contient une radio (une prestation à la fois). dataset-price contient le tarif par défaut. -->
+          <div class="service" role="listitem">
+            <label><input type="radio" name="service" value="Coupe Femme" data-price="15"> Coupe Femme</label>
+            <div class="price">15€</div>
+          </div>
+          <div class="service" role="listitem">
+            <label><input type="radio" name="service" value="Coupe Homme" data-price="10"> Coupe Homme</label>
+            <div class="price">10€</div>
+          </div>
+          <div class="service" role="listitem">
+            <label><input type="radio" name="service" value="Coloration" data-price="15"> Coloration (teinte complète)</label>
+            <div class="price">15€</div>
+          </div>
+          <div class="service" role="listitem">
+            <label><input type="radio" name="service" value="Balayage" data-price="30"> Balayage</label>
+            <div class="price">30€ Tout inclus</div>
+          </div>
+          <div class="service" role="listitem">
+            <label><input type="radio" name="service" value="Soins Profonds" data-price="25"> Soin Profond</label>
+            <div class="price">25€</div>
+          </div>
+          <div class="service" role="listitem">
+            <label><input type="radio" name="service" value="Chignon & Coiffures Evénement" data-price="40"> Chignon & Coiffures Événement</label>
+            <div class="price">40€ Tout inclus</div>
+          </div>
+          <div class="service" role="listitem">
+            <label><input type="radio" name="service" value="Mèches" data-price="55"> Mèches ou locks / Toning</label>
+            <div class="price">55€ Tout inclus</div>
+          </div>
+        </div>
+
+        <h2 style="margin-top:18px; color:var(--bleu-ciel-deep)">Informations complémentaires</h2>
+        <p style="margin:0 0 12px 0;color:var(--muted)">Indiquez ici vos souhaits (longueur, référence couleur, événements) afin que nous préparions au mieux votre rendez-vous.</p>
+        <textarea id="notes" placeholder="Ex : Mariage le 12/06, cheveux longs, je souhaite un balayage doux..."></textarea>
+      </section>
+
+      <aside class="sidebar" aria-label="Formulaire de réservation">
+        <label for="client-name">Votre nom</label>
+        <input id="client-name" type="text" placeholder="Prénom Nom" required>
+
+        <label for="client-phone">Téléphone</label>
+        <input id="client-phone" type="tel" placeholder="06 12 34 56 78" inputmode="tel">
+
+        <label for="client-email">Email</label>
+        <input id="client-email" type="email" placeholder="vous@exemple.com">
+
+        <label>Choisir un coiffeur (optionnel)</label>
+        <div class="coiffeurs" role="radiogroup" aria-label="Choix du coiffeur">
+          <label class="coiffeur" data-name="Sophie">
+            <input type="radio" name="coiffeur" value="Sophie">
+            <img src="" alt="Sophie">
+            <div><strong>Sophie</strong><div style="font-size:0.85rem;color:var(--muted)">Maître coiffeuse</div></div>
+          </label>
+          <label class="coiffeur" data-name="Lucas">
+            <input type="radio" name="coiffeur" value="Lucas">
+            <img src="" alt="Lucas">
+            <div><strong>Lucas</strong><div style="font-size:0.85rem;color:var(--muted)">Coloriste</div></div>
+          </label>
+          <label class="coiffeur" data-name="Emma">
+            <input type="radio" name="coiffeur" value="Emma">
+            <img src="" alt="Emma">
+            <div><strong>Emma</strong><div style="font-size:0.85rem;color:var(--muted)">Styliste événement</div></div>
+          </label>
+        </div>
+
+        <label for="date">Date</label>
+        <input id="date" type="date" min="" aria-required="true">
+
+        <label for="time">Heure</label>
+        <input id="time" type="time">
+
+        <div style="display:flex;gap:10px;align-items:center;margin-top:6px">
+          <div style="flex:1">
+            <div style="font-size:0.85rem;color:var(--muted)">Prix estimé</div>
+            <div id="prix" style="font-size:1.15rem;font-weight:700;color:var(--dore)">—</div>
+          </div>
+          <div style="width:140px">
+            <button class="submit" id="btn-submit">Confirmer la réservation</button>
+          </div>
+        </div>
+
+        <div class="summary" id="summary" aria-live="polite" style="display:none"></div>
+      </aside>
+    </div>
+
+    <footer>
+      <small>Clair de Lune — Votre éclat est révélé.</small>
+    </footer>
+  </main>
+  <script src="script2.js"></script>
+</body>
+</html>
